@@ -1,0 +1,40 @@
+syntax = "proto3";
+package CoinCalc;
+
+service CoinCalc {
+    rpc GetCoins(CoinListRequest) returns (CoinListResponse);
+
+    rpc GetCoinPrices(PriceRequest) returns (CoinPriceResponse);
+}
+
+message CoinListRequest {
+    int32 page = 1;   
+}
+
+message Coin {
+    string id = 1;
+    string symbol = 2;
+    string name = 3;
+    string price_usd = 4;
+    string price_btc = 5;
+    string percent_change_one_hour = 6;
+    string percent_change_one_day = 7;
+    string percent_change_one_week = 8;
+    string market_cap_usd = 9;
+    string one_day_volumn_usd = 10;
+    string available_supply = 11;
+    string total_supply = 12;
+}
+
+message CoinListResponse {
+    repeated Coin coins = 1;
+}
+
+
+message PriceRequest {
+    repeated string coinids = 1;
+}
+
+message CoinPriceResponse {
+    repeated Coin coins = 1;    
+}
