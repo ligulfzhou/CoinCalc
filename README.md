@@ -1,0 +1,2 @@
+# CoinCalc
+cryptocurrency calculator
