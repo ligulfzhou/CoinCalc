@@ -73,6 +73,8 @@ func (s *server) GetCoinPrices(ctx context.Context, in *pb.PriceRequest) (*pb.Co
 	}
 	defer c.Close()
 
+	coinids := in.Coinids
+
 	coins := []*pb.Coin{}
 	return &pb.CoinPriceResponse{
 		Coins: coins,
