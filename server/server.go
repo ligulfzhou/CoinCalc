@@ -5,9 +5,11 @@ import (
 	"fmt"
 	"log"
 	"net"
+	//"strings"
 	//"reflect"
 
 	pb "CoinCalc/proto"
+	"CoinCalc/server/db"
 	"github.com/garyburd/redigo/redis"
 	///"github.com/golang/protobuf/jsonpb"
 	//"github.com/golang/protobuf/proto"
@@ -33,6 +35,11 @@ func (s *server) GetRedisCon() (redis.Conn, error) {
 	return c, nil
 }
 
+func (s *server) GetDBInstance() database.DB {
+	db := database.DB{}
+	return db
+}
+
 func (s *server) GetCoins(ctx context.Context, in *pb.CoinListRequest) (*pb.CoinListResponse, error) {
 
 	c, err := s.GetRedisCon()
@@ -46,8 +53,8 @@ func (s *server) GetCoins(ctx context.Context, in *pb.CoinListRequest) (*pb.Coin
 	fmt.Println(res)
 
 	coinKeys := []interface{}{}
-	for _, coinid := range res {
-		coinKeys = append(coinKeys, "coin_"+coinid)
+	for _, coinSymbol := range res {
+		coinKeys = append(coinKeys, "coin_"+coinSymbol)
 	}
 
 	coinsr, _ := redis.Strings(c.Do("mget", coinKeys...))
@@ -73,12 +80,41 @@ func (s *server) GetCoinPrices(ctx context.Context, in *pb.PriceRequest) (*pb.Co
 	}
 	defer c.Close()
 
-	coinids := in.Coinids
+	symbols := in.Symbols
+
+	keys := []interface{}{}
+	for _, symbol := range symbols {
+		keys = append(keys, "coin_"+symbol)
+	}
+
+	coinsr, _ := redis.Strings(c.Do("mget", keys...))
 
 	coins := []*pb.Coin{}
+	for _, coin := range coinsr {
+		tmp := pb.Coin{}
+		_ = json.Unmarshal(([]byte)(coin), &tmp)
+		fmt.Println("coinid: ", tmp.Id)
+		coins = append(coins, &tmp)
+	}
+
 	return &pb.CoinPriceResponse{
 		Coins: coins,
 	}, nil
+}
+
+func (s *server) SetUserCoin(ctx context.Context, in *pb.SetUserCoinRequest) (*pb.SetUserCoinResponse, error) {
+	db := s.GetDBInstance()
+
+	uc := db.SetUserCoin(in.Uc.User, in.Uc.Symbol, in.Uc.Cnt)
+	resUc := &pb.UserCoin{User: uc.User, Symbol: uc.Symbol, Cnt: uc.Cnt}
+	return &pb.SetUserCoinResponse{Uc: resUc}, nil
+}
+
+func (s *server) GetUserCoins(ctx context.Context, in *pb.GetUserCoinRequest) (*pb.GetUserCoinsResponse, error) {
+
+	ucs := []*pb.UserCoin{}
+
+	return &pb.GetUserCoinsResponse{Ucs: ucs}, nil
 }
 
 func main() {
