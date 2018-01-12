@@ -111,9 +111,15 @@ func (s *server) SetUserCoin(ctx context.Context, in *pb.SetUserCoinRequest) (*p
 }
 
 func (s *server) GetUserCoins(ctx context.Context, in *pb.GetUserCoinRequest) (*pb.GetUserCoinsResponse, error) {
+	db := s.GetDBInstance()
 
 	ucs := []*pb.UserCoin{}
+	userCoins := db.GetUserCoins(in.User)
 
+	for _, coin := range userCoins {
+		uc := &pb.UserCoin{User: coin.User, Symbol: coin.Symbol, Cnt: coin.Cnt}
+		ucs = append(ucs, uc)
+	}
 	return &pb.GetUserCoinsResponse{Ucs: ucs}, nil
 }
 

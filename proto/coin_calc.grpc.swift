@@ -143,6 +143,116 @@ internal class Coincalc_CoinCalcGetCoinPricesCall {
   }
 }
 
+/// SetUserCoin (Unary)
+internal class Coincalc_CoinCalcSetUserCoinCall {
+  private var call : Call
+
+  /// Create a call.
+  fileprivate init(_ channel: Channel) {
+    self.call = channel.makeCall("/CoinCalc.CoinCalc/SetUserCoin")
+  }
+
+  /// Run the call. Blocks until the reply is received.
+  fileprivate func run(request: CoinCalc_SetUserCoinRequest,
+                       metadata: Metadata) throws -> CoinCalc_SetUserCoinResponse {
+    let sem = DispatchSemaphore(value: 0)
+    var returnCallResult : CallResult!
+    var returnResponse : CoinCalc_SetUserCoinResponse?
+    _ = try start(request:request, metadata:metadata) {response, callResult in
+      returnResponse = response
+      returnCallResult = callResult
+      sem.signal()
+    }
+    _ = sem.wait(timeout: DispatchTime.distantFuture)
+    if let returnResponse = returnResponse {
+      return returnResponse
+    } else {
+      throw Coincalc_CoinCalcClientError.error(c: returnCallResult)
+    }
+  }
+
+  /// Start the call. Nonblocking.
+  fileprivate func start(request: CoinCalc_SetUserCoinRequest,
+                         metadata: Metadata,
+                         completion: @escaping (CoinCalc_SetUserCoinResponse?, CallResult)->())
+    throws -> Coincalc_CoinCalcSetUserCoinCall {
+
+      let requestData = try request.serializedData()
+      try call.start(.unary,
+                     metadata:metadata,
+                     message:requestData)
+      {(callResult) in
+        if let responseData = callResult.resultData,
+          let response = try? CoinCalc_SetUserCoinResponse(serializedData:responseData) {
+          completion(response, callResult)
+        } else {
+          completion(nil, callResult)
+        }
+      }
+      return self
+  }
+
+  /// Cancel the call.
+  internal func cancel() {
+    call.cancel()
+  }
+}
+
+/// GetUserCoins (Unary)
+internal class Coincalc_CoinCalcGetUserCoinsCall {
+  private var call : Call
+
+  /// Create a call.
+  fileprivate init(_ channel: Channel) {
+    self.call = channel.makeCall("/CoinCalc.CoinCalc/GetUserCoins")
+  }
+
+  /// Run the call. Blocks until the reply is received.
+  fileprivate func run(request: CoinCalc_GetUserCoinRequest,
+                       metadata: Metadata) throws -> CoinCalc_GetUserCoinsResponse {
+    let sem = DispatchSemaphore(value: 0)
+    var returnCallResult : CallResult!
+    var returnResponse : CoinCalc_GetUserCoinsResponse?
+    _ = try start(request:request, metadata:metadata) {response, callResult in
+      returnResponse = response
+      returnCallResult = callResult
+      sem.signal()
+    }
+    _ = sem.wait(timeout: DispatchTime.distantFuture)
+    if let returnResponse = returnResponse {
+      return returnResponse
+    } else {
+      throw Coincalc_CoinCalcClientError.error(c: returnCallResult)
+    }
+  }
+
+  /// Start the call. Nonblocking.
+  fileprivate func start(request: CoinCalc_GetUserCoinRequest,
+                         metadata: Metadata,
+                         completion: @escaping (CoinCalc_GetUserCoinsResponse?, CallResult)->())
+    throws -> Coincalc_CoinCalcGetUserCoinsCall {
+
+      let requestData = try request.serializedData()
+      try call.start(.unary,
+                     metadata:metadata,
+                     message:requestData)
+      {(callResult) in
+        if let responseData = callResult.resultData,
+          let response = try? CoinCalc_GetUserCoinsResponse(serializedData:responseData) {
+          completion(response, callResult)
+        } else {
+          completion(nil, callResult)
+        }
+      }
+      return self
+  }
+
+  /// Cancel the call.
+  internal func cancel() {
+    call.cancel()
+  }
+}
+
 /// Call methods of this class to make API calls.
 internal class Coincalc_CoinCalcService {
   public var channel: Channel
@@ -206,6 +316,36 @@ internal class Coincalc_CoinCalcService {
                                                  metadata:metadata,
                                                  completion:completion)
   }
+  /// Synchronous. Unary.
+  internal func setusercoin(_ request: CoinCalc_SetUserCoinRequest)
+    throws
+    -> CoinCalc_SetUserCoinResponse {
+      return try Coincalc_CoinCalcSetUserCoinCall(channel).run(request:request, metadata:metadata)
+  }
+  /// Asynchronous. Unary.
+  internal func setusercoin(_ request: CoinCalc_SetUserCoinRequest,
+                  completion: @escaping (CoinCalc_SetUserCoinResponse?, CallResult)->())
+    throws
+    -> Coincalc_CoinCalcSetUserCoinCall {
+      return try Coincalc_CoinCalcSetUserCoinCall(channel).start(request:request,
+                                                 metadata:metadata,
+                                                 completion:completion)
+  }
+  /// Synchronous. Unary.
+  internal func getusercoins(_ request: CoinCalc_GetUserCoinRequest)
+    throws
+    -> CoinCalc_GetUserCoinsResponse {
+      return try Coincalc_CoinCalcGetUserCoinsCall(channel).run(request:request, metadata:metadata)
+  }
+  /// Asynchronous. Unary.
+  internal func getusercoins(_ request: CoinCalc_GetUserCoinRequest,
+                  completion: @escaping (CoinCalc_GetUserCoinsResponse?, CallResult)->())
+    throws
+    -> Coincalc_CoinCalcGetUserCoinsCall {
+      return try Coincalc_CoinCalcGetUserCoinsCall(channel).start(request:request,
+                                                 metadata:metadata,
+                                                 completion:completion)
+  }
 }
 
 
@@ -218,6 +358,8 @@ internal enum Coincalc_CoinCalcServerError : Error {
 internal protocol Coincalc_CoinCalcProvider {
   func getcoins(request : CoinCalc_CoinListRequest, session : Coincalc_CoinCalcGetCoinsSession) throws -> CoinCalc_CoinListResponse
   func getcoinprices(request : CoinCalc_PriceRequest, session : Coincalc_CoinCalcGetCoinPricesSession) throws -> CoinCalc_CoinPriceResponse
+  func setusercoin(request : CoinCalc_SetUserCoinRequest, session : Coincalc_CoinCalcSetUserCoinSession) throws -> CoinCalc_SetUserCoinResponse
+  func getusercoins(request : CoinCalc_GetUserCoinRequest, session : Coincalc_CoinCalcGetUserCoinsSession) throws -> CoinCalc_GetUserCoinsResponse
 }
 
 /// Common properties available in each service session.
@@ -285,6 +427,56 @@ internal class Coincalc_CoinCalcGetCoinPricesSession : Coincalc_CoinCalcSession 
   }
 }
 
+// SetUserCoin (Unary)
+internal class Coincalc_CoinCalcSetUserCoinSession : Coincalc_CoinCalcSession {
+  private var provider : Coincalc_CoinCalcProvider
+
+  /// Create a session.
+  fileprivate init(handler:gRPC.Handler, provider: Coincalc_CoinCalcProvider) {
+    self.provider = provider
+    super.init(handler:handler)
+  }
+
+  /// Run the session. Internal.
+  fileprivate func run(queue:DispatchQueue) throws {
+    try handler.receiveMessage(initialMetadata:initialMetadata) {(requestData) in
+      if let requestData = requestData {
+        let requestMessage = try CoinCalc_SetUserCoinRequest(serializedData:requestData)
+        let replyMessage = try self.provider.setusercoin(request:requestMessage, session: self)
+        try self.handler.sendResponse(message:replyMessage.serializedData(),
+                                      statusCode:self.statusCode,
+                                      statusMessage:self.statusMessage,
+                                      trailingMetadata:self.trailingMetadata)
+      }
+    }
+  }
+}
+
+// GetUserCoins (Unary)
+internal class Coincalc_CoinCalcGetUserCoinsSession : Coincalc_CoinCalcSession {
+  private var provider : Coincalc_CoinCalcProvider
+
+  /// Create a session.
+  fileprivate init(handler:gRPC.Handler, provider: Coincalc_CoinCalcProvider) {
+    self.provider = provider
+    super.init(handler:handler)
+  }
+
+  /// Run the session. Internal.
+  fileprivate func run(queue:DispatchQueue) throws {
+    try handler.receiveMessage(initialMetadata:initialMetadata) {(requestData) in
+      if let requestData = requestData {
+        let requestMessage = try CoinCalc_GetUserCoinRequest(serializedData:requestData)
+        let replyMessage = try self.provider.getusercoins(request:requestMessage, session: self)
+        try self.handler.sendResponse(message:replyMessage.serializedData(),
+                                      statusCode:self.statusCode,
+                                      statusMessage:self.statusMessage,
+                                      trailingMetadata:self.trailingMetadata)
+      }
+    }
+  }
+}
+
 
 /// Main server for generated service
 internal class Coincalc_CoinCalcServer {
@@ -335,6 +527,10 @@ internal class Coincalc_CoinCalcServer {
           try Coincalc_CoinCalcGetCoinsSession(handler:handler, provider:provider).run(queue:queue)
         case "/CoinCalc.CoinCalc/GetCoinPrices":
           try Coincalc_CoinCalcGetCoinPricesSession(handler:handler, provider:provider).run(queue:queue)
+        case "/CoinCalc.CoinCalc/SetUserCoin":
+          try Coincalc_CoinCalcSetUserCoinSession(handler:handler, provider:provider).run(queue:queue)
+        case "/CoinCalc.CoinCalc/GetUserCoins":
+          try Coincalc_CoinCalcGetUserCoinsSession(handler:handler, provider:provider).run(queue:queue)
         default:
           break // handle unknown requests
         }

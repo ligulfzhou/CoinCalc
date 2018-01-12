@@ -37,12 +37,12 @@ class CoinMarcketCap(APIBase):
         key = self.get_coin_range_key()
         self.rs.delete(key)
 
-        coinids = [i['id'] for i in coins]
+        coinids = [i['symbol'] for i in coins]
         self.rs.rpush(key, *coinids)
 
         for coin in coins:
-            print('iterate coin: %s' % coin['id'])
-            k = self.get_coin_x_key(coin['id'])
+            print('iterate coin: %s' % coin['symbol'])
+            k = self.get_coin_x_key(coin['symbol'])
             coin.update({
                 'percent_change_one_day': coin['percent_change_24h'] or '',
                 'percent_change_one_hour': coin['percent_change_1h'] or '',

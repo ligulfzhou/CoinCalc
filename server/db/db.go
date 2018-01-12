@@ -1,7 +1,7 @@
 package database
 
 import (
-	"fmt"
+	//"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"time"
@@ -33,16 +33,10 @@ func (db *DB) GetDBInstace() (*gorm.DB, error) {
 }
 
 func (db *DB) GetUserCoins(user string) []UserCoin {
-	dtb, err := db.GetDBInstace()
+	dtb, _ := db.GetDBInstace()
 	defer dtb.Close()
 
 	coins := []UserCoin{}
-	if err == nil {
-		fmt.Print("get all ads Error")
-
-		return coins
-	}
-
 	dtb.Where("user = ?", user).Find(&coins)
 	return coins
 }

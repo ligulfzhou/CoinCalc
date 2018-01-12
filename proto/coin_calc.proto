@@ -5,10 +5,14 @@ service CoinCalc {
     rpc GetCoins(CoinListRequest) returns (CoinListResponse);
 
     rpc GetCoinPrices(PriceRequest) returns (CoinPriceResponse);
+
+    rpc SetUserCoin(SetUserCoinRequest) returns (SetUserCoinResponse);
+
+	rpc GetUserCoins(GetUserCoinRequest) returns (GetUserCoinsResponse);
 }
 
 message CoinListRequest {
-    int32 page = 1;   
+    int32 page = 1;
 }
 
 message Coin {
@@ -26,15 +30,37 @@ message Coin {
     string total_supply = 12;
 }
 
+message UserCoin {
+	string user = 1;
+	string symbol = 2;
+	int32 cnt = 3;
+}
+
 message CoinListResponse {
     repeated Coin coins = 1;
 }
 
 
 message PriceRequest {
-    repeated string coinids = 1;
+    repeated string symbols = 1;
 }
 
 message CoinPriceResponse {
-    repeated Coin coins = 1;    
+    repeated Coin coins = 1;
+}
+
+message SetUserCoinRequest {
+	UserCoin uc = 1;
+}
+
+message SetUserCoinResponse {
+	UserCoin uc = 1;
+}
+
+message GetUserCoinRequest {
+	string user = 1;
+}
+
+message GetUserCoinsResponse {
+	repeated UserCoin ucs = 1;
 }
