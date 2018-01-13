@@ -156,11 +156,29 @@ struct CoinCalc_Coin: SwiftProtobuf.Message {
 struct CoinCalc_UserCoin: SwiftProtobuf.Message {
   static let protoMessageName: String = _protobuf_package + ".UserCoin"
 
-  var user: String = String()
+  var user: String {
+    get {return _storage._user}
+    set {_uniqueStorage()._user = newValue}
+  }
 
-  var symbol: String = String()
+  var symbol: String {
+    get {return _storage._symbol}
+    set {_uniqueStorage()._symbol = newValue}
+  }
 
-  var cnt: Int32 = 0
+  var cnt: Int32 {
+    get {return _storage._cnt}
+    set {_uniqueStorage()._cnt = newValue}
+  }
+
+  var coin: CoinCalc_Coin {
+    get {return _storage._coin ?? CoinCalc_Coin()}
+    set {_uniqueStorage()._coin = newValue}
+  }
+  /// Returns true if `coin` has been explicitly set.
+  var hasCoin: Bool {return _storage._coin != nil}
+  /// Clears the value of `coin`. Subsequent reads from it will return its default value.
+  mutating func clearCoin() {_storage._coin = nil}
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -171,12 +189,16 @@ struct CoinCalc_UserCoin: SwiftProtobuf.Message {
   /// initializers are defined in the SwiftProtobuf library. See the Message and
   /// Message+*Additions` files.
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
-    while let fieldNumber = try decoder.nextFieldNumber() {
-      switch fieldNumber {
-      case 1: try decoder.decodeSingularStringField(value: &self.user)
-      case 2: try decoder.decodeSingularStringField(value: &self.symbol)
-      case 3: try decoder.decodeSingularInt32Field(value: &self.cnt)
-      default: break
+    _ = _uniqueStorage()
+    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
+      while let fieldNumber = try decoder.nextFieldNumber() {
+        switch fieldNumber {
+        case 1: try decoder.decodeSingularStringField(value: &_storage._user)
+        case 2: try decoder.decodeSingularStringField(value: &_storage._symbol)
+        case 3: try decoder.decodeSingularInt32Field(value: &_storage._cnt)
+        case 4: try decoder.decodeSingularMessageField(value: &_storage._coin)
+        default: break
+        }
       }
     }
   }
@@ -186,17 +208,24 @@ struct CoinCalc_UserCoin: SwiftProtobuf.Message {
   /// other serializer methods are defined in the SwiftProtobuf library. See the
   /// `Message` and `Message+*Additions` files.
   func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-    if !self.user.isEmpty {
-      try visitor.visitSingularStringField(value: self.user, fieldNumber: 1)
-    }
-    if !self.symbol.isEmpty {
-      try visitor.visitSingularStringField(value: self.symbol, fieldNumber: 2)
-    }
-    if self.cnt != 0 {
-      try visitor.visitSingularInt32Field(value: self.cnt, fieldNumber: 3)
+    try withExtendedLifetime(_storage) { (_storage: _StorageClass) in
+      if !_storage._user.isEmpty {
+        try visitor.visitSingularStringField(value: _storage._user, fieldNumber: 1)
+      }
+      if !_storage._symbol.isEmpty {
+        try visitor.visitSingularStringField(value: _storage._symbol, fieldNumber: 2)
+      }
+      if _storage._cnt != 0 {
+        try visitor.visitSingularInt32Field(value: _storage._cnt, fieldNumber: 3)
+      }
+      if let v = _storage._coin {
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
+      }
     }
     try unknownFields.traverse(visitor: &visitor)
   }
+
+  fileprivate var _storage = _StorageClass.defaultInstance
 }
 
 struct CoinCalc_CoinListResponse: SwiftProtobuf.Message {
@@ -520,12 +549,47 @@ extension CoinCalc_UserCoin: SwiftProtobuf._MessageImplementationBase, SwiftProt
     1: .same(proto: "user"),
     2: .same(proto: "symbol"),
     3: .same(proto: "cnt"),
+    4: .same(proto: "coin"),
   ]
 
+  fileprivate class _StorageClass {
+    var _user: String = String()
+    var _symbol: String = String()
+    var _cnt: Int32 = 0
+    var _coin: CoinCalc_Coin? = nil
+
+    static let defaultInstance = _StorageClass()
+
+    private init() {}
+
+    init(copying source: _StorageClass) {
+      _user = source._user
+      _symbol = source._symbol
+      _cnt = source._cnt
+      _coin = source._coin
+    }
+  }
+
+  fileprivate mutating func _uniqueStorage() -> _StorageClass {
+    if !isKnownUniquelyReferenced(&_storage) {
+      _storage = _StorageClass(copying: _storage)
+    }
+    return _storage
+  }
+
   func _protobuf_generated_isEqualTo(other: CoinCalc_UserCoin) -> Bool {
-    if self.user != other.user {return false}
-    if self.symbol != other.symbol {return false}
-    if self.cnt != other.cnt {return false}
+    if _storage !== other._storage {
+      let storagesAreEqual: Bool = withExtendedLifetime((_storage, other._storage)) { (_args: (_StorageClass, _StorageClass)) in
+        let _storage = _args.0
+        let other_storage = _args.1
+        if _storage._user != other_storage._user {return false}
+        if _storage._symbol != other_storage._symbol {return false}
+        if _storage._cnt != other_storage._cnt {return false}
+        if _storage._coin != other_storage._coin {return false}
+        return true
+      }
+      if !storagesAreEqual {return false}
+    }
     if unknownFields != other.unknownFields {return false}
     return true
   }

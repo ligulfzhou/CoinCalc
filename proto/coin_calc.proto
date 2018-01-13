@@ -34,6 +34,7 @@ message UserCoin {
 	string user = 1;
 	string symbol = 2;
 	int32 cnt = 3;
+	Coin coin = 4;
 }
 
 message CoinListResponse {

@@ -73,11 +73,7 @@ func (s *server) GetCoins(ctx context.Context, in *pb.CoinListRequest) (*pb.Coin
 }
 
 func (s *server) GetCoinPrices(ctx context.Context, in *pb.PriceRequest) (*pb.CoinPriceResponse, error) {
-
-	c, err := s.GetRedisCon()
-	if err != nil {
-		fmt.Println("error, ", err)
-	}
+	c, _ := s.GetRedisCon()
 	defer c.Close()
 
 	symbols := in.Symbols
@@ -106,18 +102,40 @@ func (s *server) SetUserCoin(ctx context.Context, in *pb.SetUserCoinRequest) (*p
 	db := s.GetDBInstance()
 
 	uc := db.SetUserCoin(in.Uc.User, in.Uc.Symbol, in.Uc.Cnt)
-	resUc := &pb.UserCoin{User: uc.User, Symbol: uc.Symbol, Cnt: uc.Cnt}
+	fmt.Println("uc, ", uc)
+
+	c, _ := s.GetRedisCon()
+	coins, _ := redis.String(c.Do("get", "coin_"+uc.Symbol))
+	coin := &pb.Coin{}
+	//_ := json.Unmarshal(coins, &coin)
+	json.Unmarshal(([]byte)(coins), &coin)
+
+	resUc := &pb.UserCoin{User: uc.User, Symbol: uc.Symbol, Cnt: uc.Cnt, Coin: coin}
 	return &pb.SetUserCoinResponse{Uc: resUc}, nil
 }
 
 func (s *server) GetUserCoins(ctx context.Context, in *pb.GetUserCoinRequest) (*pb.GetUserCoinsResponse, error) {
 	db := s.GetDBInstance()
 
-	ucs := []*pb.UserCoin{}
 	userCoins := db.GetUserCoins(in.User)
+	keys := []interface{}{}
+	for _, t := range userCoins {
+		keys = append(keys, "coin_"+t.Symbol)
+	}
 
+	c, _ := s.GetRedisCon()
+	coinsr, _ := redis.Strings(c.Do("mget", keys...))
+	symbolCoinMap := make(map[string]*pb.Coin)
+	for _, coin := range coinsr {
+		tmp := pb.Coin{}
+		_ = json.Unmarshal(([]byte)(coin), &tmp)
+		fmt.Println("symbol: ", tmp.Symbol)
+		symbolCoinMap[tmp.Symbol] = &tmp
+	}
+
+	ucs := []*pb.UserCoin{}
 	for _, coin := range userCoins {
-		uc := &pb.UserCoin{User: coin.User, Symbol: coin.Symbol, Cnt: coin.Cnt}
+		uc := &pb.UserCoin{User: coin.User, Symbol: coin.Symbol, Cnt: coin.Cnt, Coin: symbolCoinMap[coin.Symbol]}
 		ucs = append(ucs, uc)
 	}
 	return &pb.GetUserCoinsResponse{Ucs: ucs}, nil

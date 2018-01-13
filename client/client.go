@@ -38,6 +38,6 @@ func main() {
 	req3 := &pb.GetUserCoinRequest{User: "zhouligang"}
 	r3, _ := c.GetUserCoins(context.Background(), req3)
 	for idx, coin3 := range r3.Ucs {
-		fmt.Println("idx: coin: ", idx, coin3.Symbol)
+		fmt.Println("idx: coin: ", idx, coin3.Coin)
 	}
 }
