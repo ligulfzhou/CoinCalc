@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 
@@ -9,13 +10,16 @@ import (
 	"google.golang.org/grpc"
 )
 
-const (
-	address = "localhost:50005"
-)
+//const (
+//	address = "localhost:50005"
+//)
 
 func main() {
 
-	conn, err := grpc.Dial(address, grpc.WithInsecure())
+	port := flag.String("port", "50005", "port num")
+	flag.Parse()
+
+	conn, err := grpc.Dial("127.0.0.1:"+*port, grpc.WithInsecure())
 	if err != nil {
 		log.Fatal("did not connect: %v", err)
 	}

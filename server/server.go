@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"log"
 	"net"
@@ -16,10 +17,6 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
-)
-
-const (
-	port = ":50005"
 )
 
 type server struct{}
@@ -142,7 +139,10 @@ func (s *server) GetUserCoins(ctx context.Context, in *pb.GetUserCoinRequest) (*
 }
 
 func main() {
-	lis, err := net.Listen("tcp", port)
+	port := flag.String("port", "50005", "run on which port")
+	flag.Parse()
+	fmt.Printf("run on port", *port)
+	lis, err := net.Listen("tcp", "127.0.0.1:"+*port)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
