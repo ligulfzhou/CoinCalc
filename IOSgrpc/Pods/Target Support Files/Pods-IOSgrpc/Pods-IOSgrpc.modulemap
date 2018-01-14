@@ -1,0 +1,6 @@
+framework module Pods_IOSgrpc {
+  umbrella header "Pods-IOSgrpc-umbrella.h"
+
+  export *
+  module * { export * }
+}

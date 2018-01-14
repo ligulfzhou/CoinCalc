@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   type = "0"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "IOSgrpc/CoinViewController.swift"
+            timestampString = "537618537.730135"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "98"
+            endingLineNumber = "98"
+            landmarkName = "fetchCoins(page:isHeader:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;IOSgrpc.CoinCalc_CoinListResponse&gt;, gRPC.CallResult) -&gt; () in IOSgrpc.CoinViewController.fetchCoins(page: Swift.Int32) -&gt; ()"
+                  moduleName = "IOSgrpc"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhouligang/go/src/CoinCalc/IOSgrpc/IOSgrpc/CoinViewController.swift"
+                  timestampString = "537587932.045463"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "99"
+                  endingLineNumber = "99"
+                  offsetFromSymbolStart = "1296">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in closure #1 (Swift.Optional&lt;IOSgrpc.CoinCalc_CoinListResponse&gt;, gRPC.CallResult) -&gt; () in IOSgrpc.CoinViewController.fetchCoins(page: Swift.Int32) -&gt; ()"
+                  moduleName = "IOSgrpc"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/zhouligang/go/src/CoinCalc/IOSgrpc/IOSgrpc/CoinViewController.swift"
+                  timestampString = "537587932.054309"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "100"
+                  endingLineNumber = "100"
+                  offsetFromSymbolStart = "24">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "xCoinsExt/coin_calc.grpc.swift"
+            timestampString = "537618616.22199"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
+            landmarkName = "unknown"
+            landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

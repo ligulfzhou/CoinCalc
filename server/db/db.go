@@ -1,7 +1,6 @@
 package database
 
 import (
-	//"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"time"
@@ -13,12 +12,12 @@ type Model struct {
 }
 
 type UserCoin struct {
-	Model
+	//Model
 
 	Id     int    `json:"id" sql:"AUTO_INCREMENT" gorm:"primary_key" db:"ad"`
 	User   string `json:"user"                 gorm: "size:64"`
 	Symbol string `json:"symbol"		       gorm: "size:32"`
-	Cnt    int32  `json:"cnt"		           gorm: "size:32"`
+	Cnt    string `json:"cnt"		           gorm: "size:32"`
 }
 
 func (uc *UserCoin) TableName() string {
@@ -28,7 +27,7 @@ func (uc *UserCoin) TableName() string {
 type DB struct{}
 
 func (db *DB) GetDBInstace() (*gorm.DB, error) {
-	dtb, err := gorm.Open("mysql", "root:zhouligang@/myktv?charset=utf8&parseTime=True&loc=Local")
+	dtb, err := gorm.Open("mysql", "root:MYSQLzhouligang153@/xcoin?charset=utf8&parseTime=True&loc=Local")
 	return dtb, err
 }
 
@@ -41,7 +40,7 @@ func (db *DB) GetUserCoins(user string) []UserCoin {
 	return coins
 }
 
-func (db *DB) SetUserCoin(user string, symbol string, count int32) UserCoin {
+func (db *DB) SetUserCoin(user string, symbol string, count string) UserCoin {
 	dtb, err := db.GetDBInstace()
 	defer dtb.Close()
 

@@ -23,7 +23,7 @@ class ViewController: UIViewController {
     }
 
     @objc func sendCall() {
-        let client = Coincalc_CoinCalcService(address: "192.168.1.100:50005", secure: false)
+        let client = Coincalc_CoinCalcService(address: "192.168.31.173:50005", secure: false)
         var req = CoinCalc_CoinListRequest()
         req.page = 1
         let result = try! client.getcoins(req)
@@ -33,7 +33,4 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
 }
-

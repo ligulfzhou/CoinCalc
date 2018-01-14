@@ -6,14 +6,10 @@ import (
 	"fmt"
 	"log"
 	"net"
-	//"strings"
-	//"reflect"
 
 	pb "CoinCalc/proto"
 	"CoinCalc/server/db"
 	"github.com/garyburd/redigo/redis"
-	///"github.com/golang/protobuf/jsonpb"
-	//"github.com/golang/protobuf/proto"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -28,7 +24,6 @@ func (s *server) GetRedisCon() (redis.Conn, error) {
 		fmt.Println("connect to redis error", err)
 	}
 
-	// defer c.Close()
 	return c, nil
 }
 
@@ -38,16 +33,13 @@ func (s *server) GetDBInstance() database.DB {
 }
 
 func (s *server) GetCoins(ctx context.Context, in *pb.CoinListRequest) (*pb.CoinListResponse, error) {
+	fmt.Println("Call GetCoins")
 
-	c, err := s.GetRedisCon()
-	if err != nil {
-		fmt.Println("error", err)
-	}
+	c, _ := s.GetRedisCon()
 	defer c.Close()
 
 	start, limit := (in.Page-1)*100, 100
 	res, _ := redis.Strings(c.Do("lrange", "coins", start, limit))
-	fmt.Println(res)
 
 	coinKeys := []interface{}{}
 	for _, coinSymbol := range res {
@@ -60,7 +52,6 @@ func (s *server) GetCoins(ctx context.Context, in *pb.CoinListRequest) (*pb.Coin
 	for _, coin := range coinsr {
 		tmp := pb.Coin{}
 		_ = json.Unmarshal(([]byte)(coin), &tmp)
-		fmt.Println("coinid: ", tmp.Id)
 		coins = append(coins, &tmp)
 	}
 
@@ -70,6 +61,8 @@ func (s *server) GetCoins(ctx context.Context, in *pb.CoinListRequest) (*pb.Coin
 }
 
 func (s *server) GetCoinPrices(ctx context.Context, in *pb.PriceRequest) (*pb.CoinPriceResponse, error) {
+	fmt.Println("Call GetCoinPrices")
+
 	c, _ := s.GetRedisCon()
 	defer c.Close()
 
@@ -86,7 +79,6 @@ func (s *server) GetCoinPrices(ctx context.Context, in *pb.PriceRequest) (*pb.Co
 	for _, coin := range coinsr {
 		tmp := pb.Coin{}
 		_ = json.Unmarshal(([]byte)(coin), &tmp)
-		fmt.Println("coinid: ", tmp.Id)
 		coins = append(coins, &tmp)
 	}
 
@@ -96,6 +88,7 @@ func (s *server) GetCoinPrices(ctx context.Context, in *pb.PriceRequest) (*pb.Co
 }
 
 func (s *server) SetUserCoin(ctx context.Context, in *pb.SetUserCoinRequest) (*pb.SetUserCoinResponse, error) {
+	fmt.Println("Call SetUserCoin, params: ", in.Uc.User)
 	db := s.GetDBInstance()
 
 	uc := db.SetUserCoin(in.Uc.User, in.Uc.Symbol, in.Uc.Cnt)
@@ -112,6 +105,7 @@ func (s *server) SetUserCoin(ctx context.Context, in *pb.SetUserCoinRequest) (*p
 }
 
 func (s *server) GetUserCoins(ctx context.Context, in *pb.GetUserCoinRequest) (*pb.GetUserCoinsResponse, error) {
+	fmt.Println("Call GetUserCoins, params", in.User)
 	db := s.GetDBInstance()
 
 	userCoins := db.GetUserCoins(in.User)
@@ -141,14 +135,14 @@ func (s *server) GetUserCoins(ctx context.Context, in *pb.GetUserCoinRequest) (*
 func main() {
 	port := flag.String("port", "50005", "run on which port")
 	flag.Parse()
-	fmt.Printf("run on port", *port)
+
+	fmt.Println("run on port", *port)
 	lis, err := net.Listen("tcp", "127.0.0.1:"+*port)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	s := grpc.NewServer()
 	pb.RegisterCoinCalcServer(s, &server{})
-	// Register reflection service on gRPC server.
 	reflection.Register(s)
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)

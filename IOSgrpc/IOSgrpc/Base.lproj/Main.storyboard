@@ -1,24 +1,106 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" systemVersion="17A277" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="1Zc-sL-q9G">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="tne-QT-ifu">
+        <!--Wallet View Controller-->
+        <scene sceneID="gjS-wy-cI7">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                <viewController id="xcR-h7-ZHB" customClass="WalletViewController" customModule="IOSgrpc" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="LtU-j5-bbs">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="xGG-3A-85g"/>
                     </view>
+                    <navigationItem key="navigationItem" id="Jk7-NF-9Z8"/>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nUG-0K-2Tf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="1366" y="75"/>
+        </scene>
+        <!--Coin View Controller-->
+        <scene sceneID="Wbc-T2-NsE">
+            <objects>
+                <viewController id="fbA-OP-2hr" customClass="CoinViewController" customModule="IOSgrpc" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="z8S-bU-bQd">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="hKE-lb-cvA"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Mgv-55-SyW"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9Jh-wN-6bU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1365.5999999999999" y="-590.55472263868069"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="p13-mZ-rvm">
+            <objects>
+                <tabBarController id="1Zc-sL-q9G" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="LZB-D1-6HV">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="vVF-OH-ipu" kind="relationship" relationship="viewControllers" id="x4X-QI-yhs"/>
+                        <segue destination="niE-PB-evk" kind="relationship" relationship="viewControllers" id="YiV-8W-1lh"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nmm-VG-zYs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-410" y="-257"/>
+        </scene>
+        <!--Coins-->
+        <scene sceneID="okW-qA-hMv">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="vVF-OH-ipu" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Coins" image="cointab" selectedImage="cointab" id="ys3-xp-erL"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="fHo-Ge-ARZ">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="fbA-OP-2hr" kind="relationship" relationship="rootViewController" id="40d-gG-q1O"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oGu-tG-FDm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="540.79999999999995" y="-589.20539730134942"/>
+        </scene>
+        <!--Wallet-->
+        <scene sceneID="fg9-6x-eSs">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="niE-PB-evk" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Wallet" image="wallettab" selectedImage="wallettab" id="eHf-oO-0Xv"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="09O-AO-Ld8">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="xcR-h7-ZHB" kind="relationship" relationship="rootViewController" id="iCQ-QC-wul"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cYe-03-e0v" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="540.79999999999995" y="75.562218890554732"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="cointab" width="24" height="24"/>
+        <image name="wallettab" width="24" height="24"/>
+    </resources>
 </document>
