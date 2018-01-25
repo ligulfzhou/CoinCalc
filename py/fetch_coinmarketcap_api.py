@@ -26,8 +26,8 @@ class CoinMarcketCap(APIBase):
     def get_coin_range_key(self):
         return 'coins'
 
-    def get_coin_x_key(self, coinid):
-        return 'coin_%s' % coinid
+    def get_coin_x_key(self, symbol, name):
+        return 'coin_%s_%s' % (symbol, name)
 
     async def fetch_coins(self):
         url = 'https://api.coinmarketcap.com/v1/ticker/?limit=0'
@@ -42,7 +42,7 @@ class CoinMarcketCap(APIBase):
 
         for coin in coins:
             print('iterate coin: %s' % coin['symbol'])
-            k = self.get_coin_x_key(coin['symbol'])
+            k = self.get_coin_x_key(coin['symbol'], coin['name'])
             coin.update({
                 'percent_change_one_day': coin['percent_change_24h'] or '',
                 'percent_change_one_hour': coin['percent_change_1h'] or '',
