@@ -37,7 +37,7 @@ class CoinMarcketCap(APIBase):
         key = self.get_coin_range_key()
         self.rs.delete(key)
 
-        coinids = [i['symbol'] for i in coins]
+        coinids = ['%s_%s' % (i['symbol'], i['name']) for i in coins]
         self.rs.rpush(key, *coinids)
 
         for coin in coins:

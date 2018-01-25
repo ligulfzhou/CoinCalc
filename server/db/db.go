@@ -17,6 +17,7 @@ type UserCoin struct {
 	Id     int    `json:"id" sql:"AUTO_INCREMENT" gorm:"primary_key" db:"ad"`
 	User   string `json:"user"                 gorm: "size:64"`
 	Symbol string `json:"symbol"		       gorm: "size:32"`
+	Name   string `json:"name"		           gorm: "size:32"`
 	Cnt    string `json:"cnt"		           gorm: "size:32"`
 }
 
@@ -40,7 +41,7 @@ func (db *DB) GetUserCoins(user string) []UserCoin {
 	return coins
 }
 
-func (db *DB) SetUserCoin(user string, symbol string, count string) UserCoin {
+func (db *DB) SetUserCoin(user string, symbol string, name string, count string) UserCoin {
 	dtb, err := db.GetDBInstace()
 	defer dtb.Close()
 
@@ -49,7 +50,7 @@ func (db *DB) SetUserCoin(user string, symbol string, count string) UserCoin {
 		return uc
 	}
 
-	dtb.Where("user = ? AND symbol = ?", user, symbol).Find(&uc)
+	dtb.Where("user = ? AND symbol = ? AND name = ?", user, symbol, name).Find(&uc)
 	if uc.Symbol != "" {
 		uc.Cnt = count
 		dtb.Save(&uc)
@@ -57,7 +58,19 @@ func (db *DB) SetUserCoin(user string, symbol string, count string) UserCoin {
 		uc.Cnt = count
 		uc.Symbol = symbol
 		uc.User = user
+		uc.Name = name
 		dtb.Create(&uc)
 	}
 	return uc
+}
+
+func (db *DB) DeleteUserCoin(user string, symbol string, name string) {
+	dtb, err := db.GetDBInstace()
+	if err != nil {
+		return
+	}
+	defer dtb.Close()
+
+	dtb.Where("user = ? AND symbol = ? AND name = ?", user, symbol, name).Delete(&UserCoin{})
+	return
 }

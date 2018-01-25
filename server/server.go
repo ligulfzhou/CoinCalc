@@ -42,8 +42,8 @@ func (s *server) GetCoins(ctx context.Context, in *pb.CoinListRequest) (*pb.Coin
 	res, _ := redis.Strings(c.Do("lrange", "coins", start, limit))
 
 	coinKeys := []interface{}{}
-	for _, coinSymbol := range res {
-		coinKeys = append(coinKeys, "coin_"+coinSymbol)
+	for _, coinSymbolAndName := range res {
+		coinKeys = append(coinKeys, "coin_"+coinSymbolAndName)
 	}
 
 	coinsr, _ := redis.Strings(c.Do("mget", coinKeys...))
@@ -91,11 +91,11 @@ func (s *server) SetUserCoin(ctx context.Context, in *pb.SetUserCoinRequest) (*p
 	fmt.Println("Call SetUserCoin, params: ", in.Uc.User)
 	db := s.GetDBInstance()
 
-	uc := db.SetUserCoin(in.Uc.User, in.Uc.Symbol, in.Uc.Cnt)
+	uc := db.SetUserCoin(in.Uc.User, in.Uc.Symbol, in.Uc.Name, in.Uc.Cnt)
 	fmt.Println("uc, ", uc)
 
 	c, _ := s.GetRedisCon()
-	coins, _ := redis.String(c.Do("get", "coin_"+uc.Symbol))
+	coins, _ := redis.String(c.Do("get", "coin_"+uc.Symbol+"_"+uc.Name))
 	coin := &pb.Coin{}
 	//_ := json.Unmarshal(coins, &coin)
 	json.Unmarshal(([]byte)(coins), &coin)
@@ -111,7 +111,7 @@ func (s *server) GetUserCoins(ctx context.Context, in *pb.GetUserCoinRequest) (*
 	userCoins := db.GetUserCoins(in.User)
 	keys := []interface{}{}
 	for _, t := range userCoins {
-		keys = append(keys, "coin_"+t.Symbol)
+		keys = append(keys, "coin_"+t.Symbol+"_"+t.Name)
 	}
 
 	c, _ := s.GetRedisCon()
@@ -126,10 +126,20 @@ func (s *server) GetUserCoins(ctx context.Context, in *pb.GetUserCoinRequest) (*
 
 	ucs := []*pb.UserCoin{}
 	for _, coin := range userCoins {
-		uc := &pb.UserCoin{User: coin.User, Symbol: coin.Symbol, Cnt: coin.Cnt, Coin: symbolCoinMap[coin.Symbol]}
+		uc := &pb.UserCoin{User: coin.User, Name: coin.Name, Symbol: coin.Symbol, Cnt: coin.Cnt, Coin: symbolCoinMap[coin.Symbol]}
 		ucs = append(ucs, uc)
 	}
 	return &pb.GetUserCoinsResponse{Ucs: ucs}, nil
+}
+
+func (s *server) DeleteUserCoin(ctx context.Context, in *pb.DeleteUserCoinRequest) (*pb.Empty, error) {
+	fmt.Println("call DeleteUserCoin, params", in.User, in.Symbol, in.Name)
+	user, symbol, name := in.User, in.Symbol, in.Name
+
+	db := s.GetDBInstance()
+	db.DeleteUserCoin(user, symbol, name)
+
+	return &pb.Empty{}, nil
 }
 
 func main() {
@@ -141,6 +151,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
+
 	s := grpc.NewServer()
 	pb.RegisterCoinCalcServer(s, &server{})
 	reflection.Register(s)

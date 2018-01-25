@@ -9,6 +9,8 @@ service CoinCalc {
     rpc SetUserCoin(SetUserCoinRequest) returns (SetUserCoinResponse);
 
 	rpc GetUserCoins(GetUserCoinRequest) returns (GetUserCoinsResponse);
+
+	rpc DeleteUserCoin(DeleteUserCoinRequest) returns (Empty);
 }
 
 message CoinListRequest {
@@ -33,8 +35,9 @@ message Coin {
 message UserCoin {
 	string user = 1;
 	string symbol = 2;
-	string cnt = 3;
-	Coin coin = 4;
+	string name = 3;
+	string cnt = 4;
+	Coin coin = 5;
 }
 
 message CoinListResponse {
@@ -64,4 +67,13 @@ message GetUserCoinRequest {
 
 message GetUserCoinsResponse {
 	repeated UserCoin ucs = 1;
+}
+
+message DeleteUserCoinRequest {
+	string user = 1;
+	string symbol = 2;
+	string name = 3;
+}
+
+message Empty {
 }
