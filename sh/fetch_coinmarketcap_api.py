@@ -3,6 +3,7 @@ import json
 import redis
 import asyncio
 import aiohttp
+import MySQLdb
 
 class APIBase:
 
@@ -22,12 +23,23 @@ class CoinMarcketCap(APIBase):
     def __init__(self, loop):
         super(CoinMarcketCap, self).__init__(loop)
         self.rs = redis.StrictRedis(host='127.0.0.1')
+        self.db = MySQLdb.connect(db='xcoin', passwd='MYSQLzhouligang153', user='root', host='127.0.0.1')
 
     def get_coin_range_key(self):
         return 'coins'
 
     def get_coin_x_key(self, symbol, name):
         return 'coin_%s_%s' % (symbol, name)
+
+    def insert_to_db(self, coins):
+        for coin in coins:
+            try:
+                c = self.db.cursor()
+                c.execute('insert into coin (name, symbol) values ("%s", "%s")' % (coin['name'], coin['symbol']))
+                self.db.commit()
+            except Exception as e:
+                print(e)
+                self.db.rollback()
 
     async def fetch_coins(self):
         url = 'https://api.coinmarketcap.com/v1/ticker/?limit=0'
@@ -52,6 +64,7 @@ class CoinMarcketCap(APIBase):
                 del coin[i]
             self.rs.set(k, json.dumps(coin))
 
+        self.insert_to_db(coins)
 
     async def start(self):
         await self.fetch_coins()

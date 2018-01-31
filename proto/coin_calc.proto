@@ -11,6 +11,8 @@ service CoinCalc {
 	rpc GetUserCoins(GetUserCoinRequest) returns (GetUserCoinsResponse);
 
 	rpc DeleteUserCoin(DeleteUserCoinRequest) returns (Empty);
+
+	rpc SearchCoin(SeachCoinRequest) returns (CoinListResponse);
 }
 
 message CoinListRequest {
@@ -76,4 +78,8 @@ message DeleteUserCoinRequest {
 }
 
 message Empty {
+}
+
+message SeachCoinRequest {
+	string name = 1;
 }

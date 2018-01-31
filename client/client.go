@@ -25,7 +25,7 @@ func main() {
 	defer conn.Close()
 	c := pb.NewCoinCalcClient(conn)
 
-	req := &pb.CoinListRequest{Page: 1}
+	req := &pb.CoinListRequest{Page: 2}
 	r, err := c.GetCoins(context.Background(), req)
 	for idx, coin := range r.Coins {
 		fmt.Println("idx: coin: ", idx, coin)
@@ -42,5 +42,13 @@ func main() {
 	r3, _ := c.GetUserCoins(context.Background(), req3)
 	for idx, coin3 := range r3.Ucs {
 		fmt.Println("idx: coin: ", idx, coin3.Coin)
+	}
+
+	searchReq := &pb.SearchCoinRequest{Name: "B"}
+	r4, _ := c.SearchCoin(context.Background(), searchReq)
+	fmt.Print(r4)
+
+	for idx, coin4 := range r4.Coins {
+		fmt.Print("idx: coin:", idx, coin4)
 	}
 }

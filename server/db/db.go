@@ -16,13 +16,23 @@ type UserCoin struct {
 
 	Id     int    `json:"id" sql:"AUTO_INCREMENT" gorm:"primary_key" db:"ad"`
 	User   string `json:"user"                 gorm: "size:64"`
-	Symbol string `json:"symbol"		       gorm: "size:32"`
-	Name   string `json:"name"		           gorm: "size:32"`
+	Symbol string `json:"symbol"		       gorm: "size:64"`
+	Name   string `json:"name"		           gorm: "size:64"`
 	Cnt    string `json:"cnt"		           gorm: "size:32"`
 }
 
 func (uc *UserCoin) TableName() string {
 	return "user_coin"
+}
+
+type Coin struct {
+	Id     int    `json:"id" sql:"AUTO_INCREMENT" gorm:"primary_key" db:"ad"`
+	Name   string `json:"name"		           gorm: "size:64"`
+	Symbol string `json:"symbol"		       gorm: "size:64"`
+}
+
+func (c *Coin) TableName() string {
+	return "coin"
 }
 
 type DB struct{}
@@ -73,4 +83,15 @@ func (db *DB) DeleteUserCoin(user string, symbol string, name string) {
 
 	dtb.Where("user = ? AND symbol = ? AND name = ?", user, symbol, name).Delete(&UserCoin{})
 	return
+}
+
+func (db *DB) SearchCoin(name string) []Coin {
+	coins := []Coin{}
+	dtb, err := db.GetDBInstace()
+	if err != nil {
+		return coins
+	}
+
+	dtb.Where("name like ?", "%"+name+"%").Or("symbol like ?", "%"+name+"%").Find(&coins)
+	return coins
 }

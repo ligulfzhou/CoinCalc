@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"strings"
 
 	pb "CoinCalc/proto"
 	"CoinCalc/server/db"
@@ -38,8 +39,9 @@ func (s *server) GetCoins(ctx context.Context, in *pb.CoinListRequest) (*pb.Coin
 	c, _ := s.GetRedisCon()
 	defer c.Close()
 
-	start, limit := (in.Page-1)*100, 100
-	res, _ := redis.Strings(c.Do("lrange", "coins", start, limit))
+	start, limit := (in.Page-1)*100, int32(99)
+	fmt.Println(start, limit)
+	res, _ := redis.Strings(c.Do("lrange", "coins", start, start+limit))
 
 	coinKeys := []interface{}{}
 	for _, coinSymbolAndName := range res {
@@ -95,6 +97,8 @@ func (s *server) SetUserCoin(ctx context.Context, in *pb.SetUserCoinRequest) (*p
 	fmt.Println("uc, ", uc)
 
 	c, _ := s.GetRedisCon()
+	defer c.Close()
+
 	coins, _ := redis.String(c.Do("get", "coin_"+uc.Symbol+"_"+uc.Name))
 	coin := &pb.Coin{}
 	//_ := json.Unmarshal(coins, &coin)
@@ -140,6 +144,44 @@ func (s *server) DeleteUserCoin(ctx context.Context, in *pb.DeleteUserCoinReques
 	db.DeleteUserCoin(user, symbol, name)
 
 	return &pb.Empty{}, nil
+}
+
+func (s *server) SearchCoin(ctx context.Context, in *pb.SearchCoinRequest) (*pb.CoinListResponse, error) {
+	fmt.Println("call SearchCoin, params", in.Name)
+
+	coinsR := []*pb.Coin{}
+	if strings.TrimSpace(in.Name) == "" {
+		return &pb.CoinListResponse{
+			Coins: coinsR,
+		}, nil
+	}
+	db := s.GetDBInstance()
+
+	coins := db.SearchCoin(in.Name)
+	if len(coins) <= 0 {
+		return &pb.CoinListResponse{
+			Coins: coinsR,
+		}, nil
+	}
+
+	coinKeys := []interface{}{}
+	for _, coin := range coins {
+		coinKeys = append(coinKeys, "coin_"+coin.Symbol+"_"+coin.Name)
+	}
+
+	c, _ := s.GetRedisCon()
+	defer c.Close()
+
+	coinsr, _ := redis.Strings(c.Do("mget", coinKeys...))
+	for _, coin := range coinsr {
+		tmp := pb.Coin{}
+		_ = json.Unmarshal(([]byte)(coin), &tmp)
+		coinsR = append(coinsR, &tmp)
+	}
+
+	return &pb.CoinListResponse{
+		Coins: coinsR,
+	}, nil
 }
 
 func main() {
