@@ -23,14 +23,14 @@ class CoinViewController: UIViewController {
     lazy var header = MJRefreshNormalHeader()
     var identifier = "CoinTableViewCellIden"
     var banner: GADBannerView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.title = "Coins"
         footer.setRefreshingTarget(self, refreshingAction: #selector(CoinViewController.refreshFooter))
         header.setRefreshingTarget(self, refreshingAction: #selector(CoinViewController.refreshHeader))
-        
+
         banner = GADBannerView(adSize: kGADAdSizeBanner)
         banner.rootViewController = self
         banner.adUnitID = "ca-app-pub-9174125730777485/7416116941"
@@ -43,7 +43,7 @@ class CoinViewController: UIViewController {
         let req = GADRequest()
         req.testDevices = [ kGADSimulatorID, "f3f1e0559573881fc3647836492075a3" ]
         banner.load(req)
-        
+
         tableView = UITableView()
         tableView.dataSource = self
         tableView.delegate = self
@@ -68,7 +68,7 @@ class CoinViewController: UIViewController {
         curPage = 1
         fetchCoins(page: curPage, isHeader: true)
         NSLog("periodic refresh");
-        DispatchQueue.main.asyncAfter(deadline: .now() + 30) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 60) {
             self.periodFetch()
         }
     }
@@ -76,6 +76,8 @@ class CoinViewController: UIViewController {
     @objc func refreshFooter() {
         NSLog("refresh footer")
         tableView.mj_footer.beginRefreshing()
+        curPage = curPage + 1
+        fetchCoins(page: curPage, isHeader: false)
     }
 
     @objc func refreshHeader() {
@@ -173,6 +175,7 @@ extension CoinViewController: UITableViewDelegate {
                 req.uc.cnt = coinCnt
                 req.uc.user = userName!
                 req.uc.symbol = coinAtIndex.symbol
+                req.uc.name = coinAtIndex.name
                 try! GRPC_CLIENT.setusercoin(req, completion: {
                     (response: CoinCalc_SetUserCoinResponse?, result: CallResult) in
                     
@@ -189,7 +192,7 @@ extension CoinViewController: UITableViewDelegate {
             })
             alertController.addTextField(configurationHandler: {
                 (textField: UITextField) in
-                
+
                 textField.placeholder = "How Many \(coinAtIndex.name)s DO You Have?"
                 textField.borderStyle = .roundedRect
                 textField.textColor = .red

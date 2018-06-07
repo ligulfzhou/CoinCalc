@@ -9,7 +9,7 @@
 import Foundation
 import gRPC
 
-//let GRPC_CLIENT = Coincalc_CoinCalcService(address: "xcoins.ligulfzhou.com", secure: false)
 let GRPC_CLIENT = Coincalc_CoinCalcService(address: "52.198.240.126:5000", secure: false)
+//let GRPC_CLIENT = Coincalc_CoinCalcService(address: "127.0.0.1:5000", secure: false)
 
 //let GRPC_CLIENT = Coincalc_CoinCalcService(address: "192.168.8.103:5000", secure: false)

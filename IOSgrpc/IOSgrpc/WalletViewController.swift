@@ -15,6 +15,7 @@ import GoogleMobileAds
 class WalletViewController: UIViewController {
 
     var userCoins: [CoinCalc_UserCoin] = []
+    var userCoinKeys: [String] = []
     var totalSum: Int = 0
     var tableView: UITableView!
     lazy var header = MJRefreshNormalHeader()
@@ -36,7 +37,9 @@ class WalletViewController: UIViewController {
             make.centerX.equalTo(view)
         }
         let req = GADRequest()
+//        req.testDevices = [ kGADSimulatorID, "f3f1e0559573881fc3647836492075a3" ]
         req.testDevices = [ kGADSimulatorID, "f3f1e0559573881fc3647836492075a3" ]
+
         banner.load(req)
         
         header.setRefreshingTarget(self, refreshingAction: #selector(WalletViewController.refreshHeader))
@@ -71,20 +74,24 @@ class WalletViewController: UIViewController {
             DispatchQueue.main.async {
                 self.tableView.mj_header.endRefreshing()
             }
-            
-            guard let coins = response?.ucs else {
-                return
-            }
 
-            self.userCoins = coins
+//            guard let coins = response?.ucs else {
+//                return
+//            }
+            let coins = response?.ucs
+            self.userCoins = coins!
+            self.userCoinKeys = []
  
             if self.userCoins.count == 0 {
                 return
             }
             
             self.totalSum = 0
-            for coin in self.userCoins {
-                self.totalSum += Int(Float(coin.coin.priceUsd)! * Float(coin.cnt)!)
+            if self.userCoins.count > 0 {
+                for coin in self.userCoins {
+                    self.totalSum += Int(Float(coin.coin.priceUsd)! * Float(coin.cnt)!)
+                    self.userCoinKeys.append("\(coin.coin.symbol)_\(coin.coin.name)")
+                }
             }
             
             DispatchQueue.main.async {
@@ -124,7 +131,14 @@ extension WalletViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         // 让用户输入有多少个这种币，并提交到线上
         let coinAtIndex = userCoins[indexPath.row]
-        let addToCollectionAction = UITableViewRowAction(style: .default, title: "Add To Wallet") {
+        let key: String = "\(coinAtIndex.symbol)_\(coinAtIndex.name)"
+        
+        var addTitle: String = "Add To Wallet"
+        if self.userCoinKeys.index(of: key) != nil {
+            addTitle = "Change Cnt"
+        }
+        
+        let addToCollectionAction = UITableViewRowAction(style: .normal, title: addTitle) {
             (action: UITableViewRowAction, indexPath: IndexPath) in
             
             print(indexPath)
@@ -154,6 +168,8 @@ extension WalletViewController: UITableViewDelegate {
                 req.uc.cnt = coinCnt
                 req.uc.user = userName!
                 req.uc.symbol = coinAtIndex.symbol
+                req.uc.name = coinAtIndex.name
+                
                 try! GRPC_CLIENT.setusercoin(req, completion: {
                     (response: CoinCalc_SetUserCoinResponse?, result: CallResult) in
                     
@@ -175,11 +191,44 @@ extension WalletViewController: UITableViewDelegate {
                 textField.borderStyle = .roundedRect
                 textField.textColor = .red
                 textField.clearButtonMode = .whileEditing
+                textField.delegate = self
             })
             alertController.addAction(cancelAction)
             alertController.addAction(okAction)
             
             self.present(alertController, animated: true, completion: nil)
+        }
+        
+        if self.userCoinKeys.index(of: key) != nil {
+            let deleteCoinAction = UITableViewRowAction(style: .default, title: "Delete") {
+                (action: UITableViewRowAction, indexPath: IndexPath) in
+                
+                print(indexPath)
+                
+                let alertController = UIAlertController(title: "Add Coin To Wallet", message: "How Many \(coinAtIndex.symbol) do You Have", preferredStyle: UIAlertControllerStyle.alert)
+                let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
+                let okAction = UIAlertAction(title: "ok", style: .default, handler: { (action: UIAlertAction) in
+                    
+                    var req = CoinCalc_DeleteUserCoinRequest()
+                    req.name = coinAtIndex.name
+                    req.symbol = coinAtIndex.symbol
+                    req.user = coinAtIndex.user
+                    
+                    try! GRPC_CLIENT.deleteusercoin(req, completion: { ( empty: CoinCalc_Empty?, result: CallResult) in
+                        DispatchQueue.main.async {
+                            self.navigationController?.view.makeToast("Delete Successfully", duration: 2.0, position: .center)
+                            self.userCoins = []
+                            self.userCoinKeys = []
+                            self.fetchUserCoins()
+                        }
+                    })
+                })
+                alertController.addAction(cancelAction)
+                alertController.addAction(okAction)
+                
+                self.present(alertController, animated: true, completion: nil)
+            }
+            return [deleteCoinAction, addToCollectionAction]
         }
         
         return [addToCollectionAction]
@@ -189,3 +238,19 @@ extension WalletViewController: UITableViewDelegate {
         return false
     }
 }
+
+
+
+
+extension WalletViewController: UITextFieldDelegate {
+    
+}
+
+
+
+
+
+
+
+
+

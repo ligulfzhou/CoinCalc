@@ -166,6 +166,11 @@ struct CoinCalc_UserCoin: SwiftProtobuf.Message {
     set {_uniqueStorage()._symbol = newValue}
   }
 
+  var name: String {
+    get {return _storage._name}
+    set {_uniqueStorage()._name = newValue}
+  }
+
   var cnt: String {
     get {return _storage._cnt}
     set {_uniqueStorage()._cnt = newValue}
@@ -195,8 +200,9 @@ struct CoinCalc_UserCoin: SwiftProtobuf.Message {
         switch fieldNumber {
         case 1: try decoder.decodeSingularStringField(value: &_storage._user)
         case 2: try decoder.decodeSingularStringField(value: &_storage._symbol)
-        case 3: try decoder.decodeSingularStringField(value: &_storage._cnt)
-        case 4: try decoder.decodeSingularMessageField(value: &_storage._coin)
+        case 3: try decoder.decodeSingularStringField(value: &_storage._name)
+        case 4: try decoder.decodeSingularStringField(value: &_storage._cnt)
+        case 5: try decoder.decodeSingularMessageField(value: &_storage._coin)
         default: break
         }
       }
@@ -215,11 +221,14 @@ struct CoinCalc_UserCoin: SwiftProtobuf.Message {
       if !_storage._symbol.isEmpty {
         try visitor.visitSingularStringField(value: _storage._symbol, fieldNumber: 2)
       }
+      if !_storage._name.isEmpty {
+        try visitor.visitSingularStringField(value: _storage._name, fieldNumber: 3)
+      }
       if !_storage._cnt.isEmpty {
-        try visitor.visitSingularStringField(value: _storage._cnt, fieldNumber: 3)
+        try visitor.visitSingularStringField(value: _storage._cnt, fieldNumber: 4)
       }
       if let v = _storage._coin {
-        try visitor.visitSingularMessageField(value: v, fieldNumber: 4)
+        try visitor.visitSingularMessageField(value: v, fieldNumber: 5)
       }
     }
     try unknownFields.traverse(visitor: &visitor)
@@ -494,6 +503,77 @@ struct CoinCalc_GetUserCoinsResponse: SwiftProtobuf.Message {
   }
 }
 
+struct CoinCalc_DeleteUserCoinRequest: SwiftProtobuf.Message {
+  static let protoMessageName: String = _protobuf_package + ".DeleteUserCoinRequest"
+
+  var user: String = String()
+
+  var symbol: String = String()
+
+  var name: String = String()
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+
+  /// Used by the decoding initializers in the SwiftProtobuf library, not generally
+  /// used directly. `init(serializedData:)`, `init(jsonUTF8Data:)`, and other decoding
+  /// initializers are defined in the SwiftProtobuf library. See the Message and
+  /// Message+*Additions` files.
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      switch fieldNumber {
+      case 1: try decoder.decodeSingularStringField(value: &self.user)
+      case 2: try decoder.decodeSingularStringField(value: &self.symbol)
+      case 3: try decoder.decodeSingularStringField(value: &self.name)
+      default: break
+      }
+    }
+  }
+
+  /// Used by the encoding methods of the SwiftProtobuf library, not generally
+  /// used directly. `Message.serializedData()`, `Message.jsonUTF8Data()`, and
+  /// other serializer methods are defined in the SwiftProtobuf library. See the
+  /// `Message` and `Message+*Additions` files.
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.user.isEmpty {
+      try visitor.visitSingularStringField(value: self.user, fieldNumber: 1)
+    }
+    if !self.symbol.isEmpty {
+      try visitor.visitSingularStringField(value: self.symbol, fieldNumber: 2)
+    }
+    if !self.name.isEmpty {
+      try visitor.visitSingularStringField(value: self.name, fieldNumber: 3)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+}
+
+struct CoinCalc_Empty: SwiftProtobuf.Message {
+  static let protoMessageName: String = _protobuf_package + ".Empty"
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+
+  /// Used by the decoding initializers in the SwiftProtobuf library, not generally
+  /// used directly. `init(serializedData:)`, `init(jsonUTF8Data:)`, and other decoding
+  /// initializers are defined in the SwiftProtobuf library. See the Message and
+  /// Message+*Additions` files.
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let _ = try decoder.nextFieldNumber() {
+    }
+  }
+
+  /// Used by the encoding methods of the SwiftProtobuf library, not generally
+  /// used directly. `Message.serializedData()`, `Message.jsonUTF8Data()`, and
+  /// other serializer methods are defined in the SwiftProtobuf library. See the
+  /// `Message` and `Message+*Additions` files.
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    try unknownFields.traverse(visitor: &visitor)
+  }
+}
+
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
 
 fileprivate let _protobuf_package = "CoinCalc"
@@ -548,13 +628,15 @@ extension CoinCalc_UserCoin: SwiftProtobuf._MessageImplementationBase, SwiftProt
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "user"),
     2: .same(proto: "symbol"),
-    3: .same(proto: "cnt"),
-    4: .same(proto: "coin"),
+    3: .same(proto: "name"),
+    4: .same(proto: "cnt"),
+    5: .same(proto: "coin"),
   ]
 
   fileprivate class _StorageClass {
     var _user: String = String()
     var _symbol: String = String()
+    var _name: String = String()
     var _cnt: String = String()
     var _coin: CoinCalc_Coin? = nil
 
@@ -565,6 +647,7 @@ extension CoinCalc_UserCoin: SwiftProtobuf._MessageImplementationBase, SwiftProt
     init(copying source: _StorageClass) {
       _user = source._user
       _symbol = source._symbol
+      _name = source._name
       _cnt = source._cnt
       _coin = source._coin
     }
@@ -584,6 +667,7 @@ extension CoinCalc_UserCoin: SwiftProtobuf._MessageImplementationBase, SwiftProt
         let other_storage = _args.1
         if _storage._user != other_storage._user {return false}
         if _storage._symbol != other_storage._symbol {return false}
+        if _storage._name != other_storage._name {return false}
         if _storage._cnt != other_storage._cnt {return false}
         if _storage._coin != other_storage._coin {return false}
         return true
@@ -728,6 +812,31 @@ extension CoinCalc_GetUserCoinsResponse: SwiftProtobuf._MessageImplementationBas
 
   func _protobuf_generated_isEqualTo(other: CoinCalc_GetUserCoinsResponse) -> Bool {
     if self.ucs != other.ucs {return false}
+    if unknownFields != other.unknownFields {return false}
+    return true
+  }
+}
+
+extension CoinCalc_DeleteUserCoinRequest: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "user"),
+    2: .same(proto: "symbol"),
+    3: .same(proto: "name"),
+  ]
+
+  func _protobuf_generated_isEqualTo(other: CoinCalc_DeleteUserCoinRequest) -> Bool {
+    if self.user != other.user {return false}
+    if self.symbol != other.symbol {return false}
+    if self.name != other.name {return false}
+    if unknownFields != other.unknownFields {return false}
+    return true
+  }
+}
+
+extension CoinCalc_Empty: SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let _protobuf_nameMap = SwiftProtobuf._NameMap()
+
+  func _protobuf_generated_isEqualTo(other: CoinCalc_Empty) -> Bool {
     if unknownFields != other.unknownFields {return false}
     return true
   }

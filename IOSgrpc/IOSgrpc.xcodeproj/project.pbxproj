@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		274E02FB2018D99D00BD3FF5 /* coin_calc.proto in Resources */ = {isa = PBXBuildFile; fileRef = 274E02F82018D99D00BD3FF5 /* coin_calc.proto */; };
+		274E02FC2018D99D00BD3FF5 /* coin_calc.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274E02F92018D99D00BD3FF5 /* coin_calc.grpc.swift */; };
+		274E02FD2018D99D00BD3FF5 /* coin_calc.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274E02FA2018D99D00BD3FF5 /* coin_calc.pb.swift */; };
 		2755970C2003A4AE00A66355 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2755970B2003A4AE00A66355 /* AppDelegate.swift */; };
 		2755970E2003A4AE00A66355 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2755970D2003A4AE00A66355 /* ViewController.swift */; };
 		275597112003A4AE00A66355 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2755970F2003A4AE00A66355 /* Main.storyboard */; };
@@ -22,43 +25,17 @@
 		275597A82003B87100A66355 /* Czlib.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 275597382003A4D000A66355 /* Czlib.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		275597AC2003B87C00A66355 /* SwiftProtobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2755976F2003A4F700A66355 /* SwiftProtobuf.framework */; };
 		275597AD2003B87C00A66355 /* SwiftProtobuf.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2755976F2003A4F700A66355 /* SwiftProtobuf.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		276D787C200A2321002C8AEC /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 276D787B200A2321002C8AEC /* NotificationCenter.framework */; };
-		276D787F200A2321002C8AEC /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276D787E200A2321002C8AEC /* TodayViewController.swift */; };
-		276D7882200A2321002C8AEC /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 276D7880200A2321002C8AEC /* MainInterface.storyboard */; };
-		276D7886200A2321002C8AEC /* xCoinsExt.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 276D787A200A2321002C8AEC /* xCoinsExt.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		276D789D200A2629002C8AEC /* GrpcClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276D789C200A2629002C8AEC /* GrpcClient.swift */; };
 		276D789F200A2751002C8AEC /* Consts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276D789E200A2751002C8AEC /* Consts.swift */; };
-		276D78A2200A2910002C8AEC /* BoringSSL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 275597342003A4D000A66355 /* BoringSSL.framework */; };
-		276D78A3200A2910002C8AEC /* CgRPC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 275597322003A4D000A66355 /* CgRPC.framework */; };
-		276D78A4200A2910002C8AEC /* Czlib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 275597382003A4D000A66355 /* Czlib.framework */; };
-		276D78A5200A2910002C8AEC /* gRPC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 275597302003A4D000A66355 /* gRPC.framework */; };
-		276D78A6200A291B002C8AEC /* SwiftProtobuf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2755976F2003A4F700A66355 /* SwiftProtobuf.framework */; };
-		276D78AC200ADC9C002C8AEC /* Consts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276D78A8200ADC99002C8AEC /* Consts.swift */; };
-		276D78AD200ADC9C002C8AEC /* GrpcClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276D78A9200ADC9B002C8AEC /* GrpcClient.swift */; };
 		276D78C4200AED0A002C8AEC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 276D78C3200AED0A002C8AEC /* GoogleService-Info.plist */; };
-		276D78CA200B2457002C8AEC /* coin_calc.proto in Resources */ = {isa = PBXBuildFile; fileRef = 276D78C7200B2456002C8AEC /* coin_calc.proto */; };
-		276D78CB200B2457002C8AEC /* coin_calc.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276D78C8200B2457002C8AEC /* coin_calc.grpc.swift */; };
-		276D78CC200B2457002C8AEC /* coin_calc.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276D78C9200B2457002C8AEC /* coin_calc.pb.swift */; };
-		276D78E0200B5459002C8AEC /* coin_calc.pb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276D78DD200B5458002C8AEC /* coin_calc.pb.swift */; };
-		276D78E1200B5459002C8AEC /* coin_calc.proto in Resources */ = {isa = PBXBuildFile; fileRef = 276D78DE200B5458002C8AEC /* coin_calc.proto */; };
-		276D78E2200B5459002C8AEC /* coin_calc.grpc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276D78DF200B5458002C8AEC /* coin_calc.grpc.swift */; };
-		276D78E4200B68B4002C8AEC /* WalletTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276D78E3200B68B3002C8AEC /* WalletTableViewCell.swift */; };
 		2794D0F8200515CB00C8C890 /* CoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2794D0F7200515CB00C8C890 /* CoinViewController.swift */; };
 		2794D10620051C0600C8C890 /* CoinTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2794D10520051C0600C8C890 /* CoinTableViewCell.swift */; };
 		27F5FEE920087D62009125A7 /* WalletViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5FEE820087D61009125A7 /* WalletViewController.swift */; };
 		27F5FEEB2009074A009125A7 /* WalletTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F5FEEA2009074A009125A7 /* WalletTableViewCell.swift */; };
-		CEF4EB14854D0F97B3636102 /* Pods_xCoinsExt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5249C9558D172D5CC8686361 /* Pods_xCoinsExt.framework */; };
 		FFD6592770D27B4EB7DB944E /* Pods_IOSgrpc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24B3D44311F8E92E012D8DF1 /* Pods_IOSgrpc.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		2755972B2003A4D000A66355 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2755971D2003A4D000A66355 /* SwiftGRPC.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = "SwiftGRPC::RootsEncoder::Product";
-			remoteInfo = RootsEncoder;
-		};
 		2755972D2003A4D000A66355 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2755971D2003A4D000A66355 /* SwiftGRPC.xcodeproj */;
@@ -98,28 +75,28 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 275597642003A4F700A66355 /* SwiftProtobuf.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = _____Product_Protobuf_macOS;
+			remoteGlobalIDString = "_____Product_Protobuf_macOS";
 			remoteInfo = SwiftProtobuf_macOS;
 		};
 		275597702003A4F700A66355 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 275597642003A4F700A66355 /* SwiftProtobuf.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = _____Product_ProtobufTestSuite_macOS;
+			remoteGlobalIDString = "_____Product_ProtobufTestSuite_macOS";
 			remoteInfo = SwiftProtobufTestSuite_macOS;
 		};
 		275597722003A4F700A66355 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 275597642003A4F700A66355 /* SwiftProtobuf.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = _____Product_Protobuf_iOS;
+			remoteGlobalIDString = "_____Product_Protobuf_iOS";
 			remoteInfo = SwiftProtobuf_iOS;
 		};
 		275597742003A4F700A66355 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 275597642003A4F700A66355 /* SwiftProtobuf.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = _____Product_ProtobufTestSuite_iOS;
+			remoteGlobalIDString = "_____Product_ProtobufTestSuite_iOS";
 			remoteInfo = SwiftProtobufTestSuite_iOS;
 		};
 		275597762003A4F700A66355 /* PBXContainerItemProxy */ = {
@@ -175,15 +152,8 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 275597642003A4F700A66355 /* SwiftProtobuf.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = ______Target_Protobuf;
+			remoteGlobalIDString = "______Target_Protobuf";
 			remoteInfo = SwiftProtobuf_macOS;
-		};
-		276D7884200A2321002C8AEC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 275597002003A4AE00A66355 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 276D7879200A2321002C8AEC;
-			remoteInfo = xCoinsExt;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -209,7 +179,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				276D7886200A2321002C8AEC /* xCoinsExt.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -219,6 +188,9 @@
 /* Begin PBXFileReference section */
 		0658695FDDCEB2DCF5C533D7 /* Pods-IOSgrpc.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IOSgrpc.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IOSgrpc/Pods-IOSgrpc.debug.xcconfig"; sourceTree = "<group>"; };
 		24B3D44311F8E92E012D8DF1 /* Pods_IOSgrpc.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IOSgrpc.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		274E02F82018D99D00BD3FF5 /* coin_calc.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = coin_calc.proto; sourceTree = "<group>"; };
+		274E02F92018D99D00BD3FF5 /* coin_calc.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = coin_calc.grpc.swift; sourceTree = "<group>"; };
+		274E02FA2018D99D00BD3FF5 /* coin_calc.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = coin_calc.pb.swift; sourceTree = "<group>"; };
 		275597082003A4AE00A66355 /* IOSgrpc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IOSgrpc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2755970B2003A4AE00A66355 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2755970D2003A4AE00A66355 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -230,7 +202,6 @@
 		275597642003A4F700A66355 /* SwiftProtobuf.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftProtobuf.xcodeproj; path = "../../../../grpc-swift/third_party/swift-protobuf/SwiftProtobuf.xcodeproj"; sourceTree = "<group>"; };
 		276D784B200A1ABD002C8AEC /* nanopb.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = nanopb.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		276D7866200A1D82002C8AEC /* GoogleToolboxForMac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = GoogleToolboxForMac.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		276D787A200A2321002C8AEC /* xCoinsExt.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = xCoinsExt.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		276D787B200A2321002C8AEC /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		276D787E200A2321002C8AEC /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		276D7881200A2321002C8AEC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
@@ -241,9 +212,6 @@
 		276D78A8200ADC99002C8AEC /* Consts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Consts.swift; sourceTree = "<group>"; };
 		276D78A9200ADC9B002C8AEC /* GrpcClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GrpcClient.swift; sourceTree = "<group>"; };
 		276D78C3200AED0A002C8AEC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		276D78C7200B2456002C8AEC /* coin_calc.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = coin_calc.proto; sourceTree = "<group>"; };
-		276D78C8200B2457002C8AEC /* coin_calc.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = coin_calc.grpc.swift; sourceTree = "<group>"; };
-		276D78C9200B2457002C8AEC /* coin_calc.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = coin_calc.pb.swift; sourceTree = "<group>"; };
 		276D78DD200B5458002C8AEC /* coin_calc.pb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = coin_calc.pb.swift; sourceTree = "<group>"; };
 		276D78DE200B5458002C8AEC /* coin_calc.proto */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = coin_calc.proto; sourceTree = "<group>"; };
 		276D78DF200B5458002C8AEC /* coin_calc.grpc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = coin_calc.grpc.swift; sourceTree = "<group>"; };
@@ -273,20 +241,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		276D7877200A2321002C8AEC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				276D78A6200A291B002C8AEC /* SwiftProtobuf.framework in Frameworks */,
-				276D78A2200A2910002C8AEC /* BoringSSL.framework in Frameworks */,
-				276D78A3200A2910002C8AEC /* CgRPC.framework in Frameworks */,
-				276D78A4200A2910002C8AEC /* Czlib.framework in Frameworks */,
-				276D78A5200A2910002C8AEC /* gRPC.framework in Frameworks */,
-				276D787C200A2321002C8AEC /* NotificationCenter.framework in Frameworks */,
-				CEF4EB14854D0F97B3636102 /* Pods_xCoinsExt.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -307,7 +261,6 @@
 			isa = PBXGroup;
 			children = (
 				275597082003A4AE00A66355 /* IOSgrpc.app */,
-				276D787A200A2321002C8AEC /* xCoinsExt.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -315,9 +268,9 @@
 		2755970A2003A4AE00A66355 /* IOSgrpc */ = {
 			isa = PBXGroup;
 			children = (
-				276D78C8200B2457002C8AEC /* coin_calc.grpc.swift */,
-				276D78C9200B2457002C8AEC /* coin_calc.pb.swift */,
-				276D78C7200B2456002C8AEC /* coin_calc.proto */,
+				274E02F92018D99D00BD3FF5 /* coin_calc.grpc.swift */,
+				274E02FA2018D99D00BD3FF5 /* coin_calc.pb.swift */,
+				274E02F82018D99D00BD3FF5 /* coin_calc.proto */,
 				276D78C3200AED0A002C8AEC /* GoogleService-Info.plist */,
 				2755970B2003A4AE00A66355 /* AppDelegate.swift */,
 				2755970D2003A4AE00A66355 /* ViewController.swift */,
@@ -338,7 +291,6 @@
 		2755971E2003A4D000A66355 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2755972C2003A4D000A66355 /* RootsEncoder */,
 				2755972E2003A4D000A66355 /* gRPCTests.xctest */,
 				275597302003A4D000A66355 /* gRPC.framework */,
 				275597322003A4D000A66355 /* CgRPC.framework */,
@@ -427,31 +379,11 @@
 				275597A62003B87100A66355 /* PBXTargetDependency */,
 				275597AA2003B87100A66355 /* PBXTargetDependency */,
 				275597AF2003B87C00A66355 /* PBXTargetDependency */,
-				276D7885200A2321002C8AEC /* PBXTargetDependency */,
 			);
 			name = IOSgrpc;
 			productName = IOSgrpc;
 			productReference = 275597082003A4AE00A66355 /* IOSgrpc.app */;
 			productType = "com.apple.product-type.application";
-		};
-		276D7879200A2321002C8AEC /* xCoinsExt */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 276D7895200A2321002C8AEC /* Build configuration list for PBXNativeTarget "xCoinsExt" */;
-			buildPhases = (
-				FFD9F5D5411885B345270B70 /* [CP] Check Pods Manifest.lock */,
-				276D7876200A2321002C8AEC /* Sources */,
-				276D7877200A2321002C8AEC /* Frameworks */,
-				276D7878200A2321002C8AEC /* Resources */,
-				C7E4E7255FD59C7694B8D26B /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = xCoinsExt;
-			productName = xCoinsExt;
-			productReference = 276D787A200A2321002C8AEC /* xCoinsExt.appex */;
-			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -464,10 +396,6 @@
 				ORGANIZATIONNAME = zhouligang;
 				TargetAttributes = {
 					275597072003A4AE00A66355 = {
-						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
-					};
-					276D7879200A2321002C8AEC = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
 					};
@@ -497,19 +425,11 @@
 			projectRoot = "";
 			targets = (
 				275597072003A4AE00A66355 /* IOSgrpc */,
-				276D7879200A2321002C8AEC /* xCoinsExt */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		2755972C2003A4D000A66355 /* RootsEncoder */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = RootsEncoder;
-			remoteRef = 2755972B2003A4D000A66355 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		2755972E2003A4D000A66355 /* gRPCTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -604,17 +524,8 @@
 				275597162003A4AE00A66355 /* LaunchScreen.storyboard in Resources */,
 				276D78C4200AED0A002C8AEC /* GoogleService-Info.plist in Resources */,
 				275597132003A4AE00A66355 /* Assets.xcassets in Resources */,
-				276D78CA200B2457002C8AEC /* coin_calc.proto in Resources */,
+				274E02FB2018D99D00BD3FF5 /* coin_calc.proto in Resources */,
 				275597112003A4AE00A66355 /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		276D7878200A2321002C8AEC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				276D78E1200B5459002C8AEC /* coin_calc.proto in Resources */,
-				276D7882200A2321002C8AEC /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -637,21 +548,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C7E4E7255FD59C7694B8D26B /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-xCoinsExt/Pods-xCoinsExt-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D68B763D9DC45CB054390630 /* [CP] Embed Pods Frameworks */ = {
@@ -699,24 +595,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-IOSgrpc/Pods-IOSgrpc-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		FFD9F5D5411885B345270B70 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-xCoinsExt-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -724,8 +602,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				276D78CC200B2457002C8AEC /* coin_calc.pb.swift in Sources */,
-				276D78CB200B2457002C8AEC /* coin_calc.grpc.swift in Sources */,
+				274E02FD2018D99D00BD3FF5 /* coin_calc.pb.swift in Sources */,
+				274E02FC2018D99D00BD3FF5 /* coin_calc.grpc.swift in Sources */,
 				276D789D200A2629002C8AEC /* GrpcClient.swift in Sources */,
 				276D789F200A2751002C8AEC /* Consts.swift in Sources */,
 				2794D10620051C0600C8C890 /* CoinTableViewCell.swift in Sources */,
@@ -734,19 +612,6 @@
 				27F5FEE920087D62009125A7 /* WalletViewController.swift in Sources */,
 				27F5FEEB2009074A009125A7 /* WalletTableViewCell.swift in Sources */,
 				2794D0F8200515CB00C8C890 /* CoinViewController.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		276D7876200A2321002C8AEC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				276D78E4200B68B4002C8AEC /* WalletTableViewCell.swift in Sources */,
-				276D78E2200B5459002C8AEC /* coin_calc.grpc.swift in Sources */,
-				276D78E0200B5459002C8AEC /* coin_calc.pb.swift in Sources */,
-				276D78AC200ADC9C002C8AEC /* Consts.swift in Sources */,
-				276D78AD200ADC9C002C8AEC /* GrpcClient.swift in Sources */,
-				276D787F200A2321002C8AEC /* TodayViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -777,11 +642,6 @@
 			isa = PBXTargetDependency;
 			name = SwiftProtobuf_macOS;
 			targetProxy = 275597AE2003B87C00A66355 /* PBXContainerItemProxy */;
-		};
-		276D7885200A2321002C8AEC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 276D7879200A2321002C8AEC /* xCoinsExt */;
-			targetProxy = 276D7884200A2321002C8AEC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -956,40 +816,6 @@
 			};
 			name = Release;
 		};
-		276D7887200A2321002C8AEC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = B20E1825CFBCD1FF274B4469 /* Pods-xCoinsExt.debug.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6HC9KR3XYX;
-				HEADER_SEARCH_PATHS = "/Users/zhouligang/grpc-swift/Sources/CgRPC/include";
-				INFOPLIST_FILE = xCoinsExt/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ligulfzhou.IOSgrpc.xCoinsExt;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		276D7888200A2321002C8AEC /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5185B08F91FF92DE9C345163 /* Pods-xCoinsExt.release.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 6HC9KR3XYX;
-				HEADER_SEARCH_PATHS = "/Users/zhouligang/grpc-swift/Sources/CgRPC/include";
-				INFOPLIST_FILE = xCoinsExt/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ligulfzhou.IOSgrpc.xCoinsExt;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1007,15 +833,6 @@
 			buildConfigurations = (
 				2755971B2003A4AE00A66355 /* Debug */,
 				2755971C2003A4AE00A66355 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		276D7895200A2321002C8AEC /* Build configuration list for PBXNativeTarget "xCoinsExt" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				276D7887200A2321002C8AEC /* Debug */,
-				276D7888200A2321002C8AEC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

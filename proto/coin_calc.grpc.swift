@@ -308,6 +308,61 @@ internal class Coincalc_CoinCalcDeleteUserCoinCall {
   }
 }
 
+/// SearchCoin (Unary)
+internal class Coincalc_CoinCalcSearchCoinCall {
+  private var call : Call
+
+  /// Create a call.
+  fileprivate init(_ channel: Channel) {
+    self.call = channel.makeCall("/CoinCalc.CoinCalc/SearchCoin")
+  }
+
+  /// Run the call. Blocks until the reply is received.
+  fileprivate func run(request: CoinCalc_SearchCoinRequest,
+                       metadata: Metadata) throws -> CoinCalc_CoinListResponse {
+    let sem = DispatchSemaphore(value: 0)
+    var returnCallResult : CallResult!
+    var returnResponse : CoinCalc_CoinListResponse?
+    _ = try start(request:request, metadata:metadata) {response, callResult in
+      returnResponse = response
+      returnCallResult = callResult
+      sem.signal()
+    }
+    _ = sem.wait(timeout: DispatchTime.distantFuture)
+    if let returnResponse = returnResponse {
+      return returnResponse
+    } else {
+      throw Coincalc_CoinCalcClientError.error(c: returnCallResult)
+    }
+  }
+
+  /// Start the call. Nonblocking.
+  fileprivate func start(request: CoinCalc_SearchCoinRequest,
+                         metadata: Metadata,
+                         completion: @escaping (CoinCalc_CoinListResponse?, CallResult)->())
+    throws -> Coincalc_CoinCalcSearchCoinCall {
+
+      let requestData = try request.serializedData()
+      try call.start(.unary,
+                     metadata:metadata,
+                     message:requestData)
+      {(callResult) in
+        if let responseData = callResult.resultData,
+          let response = try? CoinCalc_CoinListResponse(serializedData:responseData) {
+          completion(response, callResult)
+        } else {
+          completion(nil, callResult)
+        }
+      }
+      return self
+  }
+
+  /// Cancel the call.
+  internal func cancel() {
+    call.cancel()
+  }
+}
+
 /// Call methods of this class to make API calls.
 internal class Coincalc_CoinCalcService {
   public var channel: Channel
@@ -416,6 +471,21 @@ internal class Coincalc_CoinCalcService {
                                                  metadata:metadata,
                                                  completion:completion)
   }
+  /// Synchronous. Unary.
+  internal func searchcoin(_ request: CoinCalc_SearchCoinRequest)
+    throws
+    -> CoinCalc_CoinListResponse {
+      return try Coincalc_CoinCalcSearchCoinCall(channel).run(request:request, metadata:metadata)
+  }
+  /// Asynchronous. Unary.
+  internal func searchcoin(_ request: CoinCalc_SearchCoinRequest,
+                  completion: @escaping (CoinCalc_CoinListResponse?, CallResult)->())
+    throws
+    -> Coincalc_CoinCalcSearchCoinCall {
+      return try Coincalc_CoinCalcSearchCoinCall(channel).start(request:request,
+                                                 metadata:metadata,
+                                                 completion:completion)
+  }
 }
 
 
@@ -431,6 +501,7 @@ internal protocol Coincalc_CoinCalcProvider {
   func setusercoin(request : CoinCalc_SetUserCoinRequest, session : Coincalc_CoinCalcSetUserCoinSession) throws -> CoinCalc_SetUserCoinResponse
   func getusercoins(request : CoinCalc_GetUserCoinRequest, session : Coincalc_CoinCalcGetUserCoinsSession) throws -> CoinCalc_GetUserCoinsResponse
   func deleteusercoin(request : CoinCalc_DeleteUserCoinRequest, session : Coincalc_CoinCalcDeleteUserCoinSession) throws -> CoinCalc_Empty
+  func searchcoin(request : CoinCalc_SearchCoinRequest, session : Coincalc_CoinCalcSearchCoinSession) throws -> CoinCalc_CoinListResponse
 }
 
 /// Common properties available in each service session.
@@ -573,6 +644,31 @@ internal class Coincalc_CoinCalcDeleteUserCoinSession : Coincalc_CoinCalcSession
   }
 }
 
+// SearchCoin (Unary)
+internal class Coincalc_CoinCalcSearchCoinSession : Coincalc_CoinCalcSession {
+  private var provider : Coincalc_CoinCalcProvider
+
+  /// Create a session.
+  fileprivate init(handler:gRPC.Handler, provider: Coincalc_CoinCalcProvider) {
+    self.provider = provider
+    super.init(handler:handler)
+  }
+
+  /// Run the session. Internal.
+  fileprivate func run(queue:DispatchQueue) throws {
+    try handler.receiveMessage(initialMetadata:initialMetadata) {(requestData) in
+      if let requestData = requestData {
+        let requestMessage = try CoinCalc_SearchCoinRequest(serializedData:requestData)
+        let replyMessage = try self.provider.searchcoin(request:requestMessage, session: self)
+        try self.handler.sendResponse(message:replyMessage.serializedData(),
+                                      statusCode:self.statusCode,
+                                      statusMessage:self.statusMessage,
+                                      trailingMetadata:self.trailingMetadata)
+      }
+    }
+  }
+}
+
 
 /// Main server for generated service
 internal class Coincalc_CoinCalcServer {
@@ -629,6 +725,8 @@ internal class Coincalc_CoinCalcServer {
           try Coincalc_CoinCalcGetUserCoinsSession(handler:handler, provider:provider).run(queue:queue)
         case "/CoinCalc.CoinCalc/DeleteUserCoin":
           try Coincalc_CoinCalcDeleteUserCoinSession(handler:handler, provider:provider).run(queue:queue)
+        case "/CoinCalc.CoinCalc/SearchCoin":
+          try Coincalc_CoinCalcSearchCoinSession(handler:handler, provider:provider).run(queue:queue)
         default:
           break // handle unknown requests
         }
